@@ -2,20 +2,60 @@ import React, { useState, useEffect } from 'react';
 
 const jsonData = [
   {
-    "name": "even",
-    "numbers": [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]
+    "productName": "Dell XPS 13",
+    "pricing": 1200,
+    "rating": 4.5,
+    "discount": "17%",
+    "availability": "In Stock"
   },
   {
-    "name": "prime",
-    "numbers": [2, 3, 5, 7, 11, 13]
+    "productName": "Apple MacBook Pro 16",
+    "pricing": 2500,
+    "rating": 4.8,
+    "discount": "4%",
+    "availability": "Pre-Order"
   },
   {
-    "name": "fibo",
-    "numbers": [55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765]
+    "productName": "HP Spectre x360",
+    "pricing": 1400,
+    "rating": 4.3,
+    "discount": "7%",
+    "availability": "Out of Stock"
   },
   {
-    "name": "rand",
-    "numbers": [2, 19, 25, 7, 4, 24, 17, 27, 30, 21, 14, 10, 23]
+    "productName": "Lenovo ThinkPad X1 Carbon",
+    "pricing": 1800,
+    "rating": 4.7,
+    "discount": "8%",
+    "availability": "In Stock"
+  },
+  {
+    "productName": "Asus ROG Zephyrus G14",
+    "pricing": 1500,
+    "rating": 4.6,
+    "discount": "7%",
+    "availability": "In Stock"
+  },
+  {
+    "productName": "Microsoft Surface Laptop 4",
+    "pricing": 1600,
+    "rating": 4.4,
+    "discount": "6%",
+    "availability": "In Stock"
+  },
+  {
+    "productName": "Acer Swift 3",
+    "pricing": 800,
+    "rating": 4.2,
+    "discount": "6%",
+    "availability": "In Stock"
+  },
+  {
+    "productName": "Razer Blade 15",
+    "pricing": 2200,
+    "rating": 4.7,
+    "discount": "5%",
+    "availability": "Pre-Order"
   }
 ];
 
@@ -24,7 +64,7 @@ function App() {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
-    // Simulate API call by setting data directly
+    // Set the data directly
     setData(jsonData);
   }, []);
 
@@ -32,28 +72,34 @@ function App() {
     setFilter(e.target.value);
   };
 
-  const filteredData = data.filter(item => item.name === filter);
+  // Filter the data based on the selected product name
+  const filteredData = filter
+    ? data.filter(item => item.productName === filter)
+    : data;
 
   return (
     <div className="app">
       <div>
-        <label htmlFor="nameFilter">Filter by Name:</label>
+        <label htmlFor="nameFilter">Filter by Product Name:</label>
         <select id="nameFilter" onChange={handleFilterChange}>
-          <option value="">Select a name</option>
+          <option value="">All Products</option>
           {data.map((item, index) => (
-            <option key={index} value={item.name}>{item.name}</option>
+            <option key={index} value={item.productName}>{item.productName}</option>
           ))}
         </select>
       </div>
 
-      {filteredData.map((item, index) => (
-        <div key={index}>
-          <h1>{item.name}</h1>
-            {item.numbers.map((number, numIndex) => (
-              <h1>[{number}]</h1>
-            ))}
-        </div>
-      ))}
+      <div className="product-list">
+        {filteredData.map((item, index) => (
+          <div key={index} className="product-item">
+            <h1>{item.productName}</h1>
+            <p>Pricing: ${item.pricing}</p>
+            <p>Rating: {item.rating} / 5</p>
+            <p>Discount: {item.discount}</p>
+            <p>Availability: {item.availability}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
